@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Member</title>
+    {% load static %}
+    <!-- Linking the CSS file -->
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    <script>
+        // Function to open a modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // Function to close a modal and save data to the main form
+        function closeModal(modalId) {
+            if (modalId === 'addressModal') {
+                // Get address data
+                var strasse = document.getElementById('strasse').value;
+                var hausnummer = document.getElementById('hausnummer').value;
+                var postleitzahl = document.getElementById('postleitzahl').value;
+                var stadt = document.getElementById('stadt').value;
+
+                // Set hidden field in the main form
+                document.getElementById('addressData').value = strasse + ' ' + hausnummer + ', ' + postleitzahl + ' ' + stadt;
+            } else if (modalId === 'bankDetailsModal') {
+                // Get bank details data
+                var kontoinhaber = document.getElementById('kontoinhaber').value;
+                var iban = document.getElementById('iban').value;
+                var bic = document.getElementById('bic').value;
+
+                // Set hidden field in the main form
+                document.getElementById('bankData').value = kontoinhaber + ', IBAN: ' + iban + ', BIC: ' + bic;
+            }
+
+            // Close the modal
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>Add New Member</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!-- Hidden fields for Address and Bank Data -->
+        <input type="hidden" id="addressData" name="addressData">
+        <input type="hidden" id="bankData" name="bankData">
+
+        <!-- Address Button -->
+        <button type="button" onclick="openModal('addressModal')">Enter Address</button>
+
+        <!-- Bank Details Button -->
+        <button type="button" onclick="openModal('bankDetailsModal')">Enter Bank Details</button>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Address Modal -->
+    <div id="addressModal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addressModal')">&times;</span>
+            <h2>Enter Address</h2>
+            <form id="addressForm">
+                <label for="strasse">Strasse</label>
+                <input type="text" id="strasse" name="strasse">
+                <label for="hausnummer">Hausnummer</label>
+                <input type="text" id="hausnummer" name="hausnummer">
+                <label for="postleitzahl">Postleitzahl</label>
+                <input type="text" id="postleitzahl" name="postleitzahl">
+                <label for="stadt">Stadt</label>
+                <input type="text" id="stadt" name="stadt">
+                <button type="button" onclick="closeModal('addressModal')">Save Address</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bank Details Modal -->
+    <div id="bankDetailsModal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bankDetailsModal')">&times;</span>
+            <h2>Enter Bank Details</h2>
+            <form id="bankDetailsForm">
+                <label for="kontoinhaber">Kontoinhaber</label>
+                <input type="text" id="kontoinhaber" name="kontoinhaber">
+                <label for="iban">IBAN</label>
+                <input type="text" id="iban" name="iban">
+                <label for="bic">BIC</label>
+                <input type="text" id="bic" name="bic">
+                <button type="button" onclick="closeModal('bankDetailsModal')">Save Bank Details</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Modal styles */
+        .modal-content {
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            width: 400px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</body>
+</html>

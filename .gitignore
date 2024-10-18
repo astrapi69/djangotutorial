@@ -1,0 +1,34 @@
+##################
+# intellij files #
+##################
+*.iws
+*.iml
+*.ipr
+!.idea/runConfigurations
+.idea/**
+.idea/*.*
+
+#############
+# Zip files #
+#############
+*.tar
+*.tar.gz
+*.zip
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.war
+*.ear
+*.rar
+
+##############
+# Logs files #
+##############
+*.log
+
+############################
+# Binaries generated files #
+############################
+/bin
